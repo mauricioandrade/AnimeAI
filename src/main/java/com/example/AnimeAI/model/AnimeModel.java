@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -22,6 +23,7 @@ public class AnimeModel {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
     @Column(name = "ano_lancamento")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate anoLancamento;
     @Column(name = "num_episodios")
     private Integer numEpisodios;

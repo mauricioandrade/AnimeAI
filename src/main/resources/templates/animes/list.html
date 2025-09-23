@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AnimeAI - Catálogo de Animes</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="page-header">
+    <div class="container">
+        <h1>AnimeAI</h1>
+        <p>Gerencie sua coleção de animes e peça sugestões personalizadas.</p>
+    </div>
+</header>
+<main class="container">
+    <div th:if="${message}" class="alert success" th:text="${message}"></div>
+    <div th:if="${errorMessage}" class="alert error" th:text="${errorMessage}"></div>
+
+    <div class="actions">
+        <a class="button" th:href="@{/animes/new}">Cadastrar novo anime</a>
+        <a class="button secondary" th:href="@{/animes/suggestion}">Quero uma sugestão</a>
+    </div>
+
+    <section class="card">
+        <h2>Meus animes</h2>
+        <div class="table-responsive">
+            <table class="anime-table">
+                <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Categoria</th>
+                    <th>Ano de lançamento</th>
+                    <th>Episódios</th>
+                    <th class="actions-header">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="anime : ${animes}">
+                    <td th:text="${anime.titulo}"></td>
+                    <td th:text="${anime.categoria != null ? anime.categoria : '—'}"></td>
+                    <td th:text="${anime.anoLancamento != null ? #temporals.format(anime.anoLancamento, 'dd/MM/yyyy') : '—'}"></td>
+                    <td th:text="${anime.numEpisodios != null ? anime.numEpisodios : '—'}"></td>
+                    <td class="actions-cell">
+                        <a class="button small secondary" th:href="@{/animes/{id}/edit(id=${anime.id})}">Editar</a>
+                        <form th:action="@{/animes/{id}/delete(id=${anime.id})}" method="post" class="inline-form">
+                            <button type="submit" class="button small danger" onclick="return confirm('Tem certeza que deseja remover este anime?');">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(animes)}">
+                    <td colspan="5" class="empty-state">Nenhum anime cadastrado até o momento.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<footer class="page-footer">
+    <div class="container">
+        <p>AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
+    </div>
+</footer>
+</body>
+</html>

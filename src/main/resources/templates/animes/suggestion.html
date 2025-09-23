@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sugestões de animes</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="page-header">
+    <div class="container">
+        <h1>Sugestão personalizada</h1>
+        <p>Baseado na sua lista atual, aqui estão algumas recomendações.</p>
+    </div>
+</header>
+<main class="container">
+    <section class="card">
+        <h2>Resultado</h2>
+        <pre class="suggestion" th:text="${suggestion}"></pre>
+        <div class="form-actions">
+            <a class="button" th:href="@{/animes}">Voltar para a lista</a>
+        </div>
+    </section>
+</main>
+<footer class="page-footer">
+    <div class="container">
+        <p>AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
+    </div>
+</footer>
+</body>
+</html>
