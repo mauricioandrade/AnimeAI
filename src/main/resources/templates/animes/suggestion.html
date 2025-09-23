@@ -7,9 +7,15 @@
 </head>
 <body>
 <header class="page-header">
-    <div class="container">
-        <h1>Sugestão personalizada</h1>
-        <p>Baseado na sua lista atual, aqui estão algumas recomendações.</p>
+    <div class="container header-layout">
+        <div class="header-text">
+            <h1>Sugestão personalizada</h1>
+            <p>Baseado na sua lista atual, aqui estão algumas recomendações.</p>
+        </div>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" title="Alternar tema">
+            <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+            <span class="theme-toggle-text">Modo escuro</span>
+        </button>
     </div>
 </header>
 <main class="container">
@@ -26,5 +32,6 @@
         <p>AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
     </div>
 </footer>
+<script th:src="@{/js/theme.js}"></script>
 </body>
 </html>
