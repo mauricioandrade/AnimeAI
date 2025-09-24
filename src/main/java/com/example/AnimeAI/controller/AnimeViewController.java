@@ -4,8 +4,10 @@ import com.example.AnimeAI.model.AnimeModel;
 import com.example.AnimeAI.model.Categoria;
 import com.example.AnimeAI.service.AnimeService;
 import com.example.AnimeAI.service.OpenAIService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,8 +44,20 @@ public class AnimeViewController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute AnimeModel anime, RedirectAttributes redirectAttributes) {
-        animeService.save(anime);
+    public String create(@Valid @ModelAttribute("anime") AnimeModel anime,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "animes/form";
+        }
+
+        try {
+            animeService.save(anime);
+        } catch (IllegalArgumentException ex) {
+            bindingResult.rejectValue("titulo", "titulo.invalid", ex.getMessage());
+            return "animes/form";
+        }
+
         redirectAttributes.addFlashAttribute("message", "Anime cadastrado com sucesso!");
         return "redirect:/animes";
     }
@@ -62,12 +76,27 @@ public class AnimeViewController {
     }
 
     @PostMapping("/{id}/update")
-    public String update(@PathVariable Long id, @ModelAttribute AnimeModel anime, RedirectAttributes redirectAttributes) {
-        if (animeService.updateById(id, anime).isPresent()) {
-            redirectAttributes.addFlashAttribute("message", "Anime atualizado com sucesso!");
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Anime não encontrado.");
+    public String update(@PathVariable Long id,
+                         @Valid @ModelAttribute("anime") AnimeModel anime,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            anime.setId(id);
+            return "animes/form";
         }
+
+        try {
+            if (animeService.updateById(id, anime).isPresent()) {
+                redirectAttributes.addFlashAttribute("message", "Anime atualizado com sucesso!");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "Anime não encontrado.");
+            }
+        } catch (IllegalArgumentException ex) {
+            bindingResult.rejectValue("titulo", "titulo.invalid", ex.getMessage());
+            anime.setId(id);
+            return "animes/form";
+        }
+
         return "redirect:/animes";
     }
 

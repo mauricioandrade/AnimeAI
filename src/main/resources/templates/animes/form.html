@@ -56,24 +56,29 @@
 <main class="container">
     <section class="card">
         <form class="anime-form" th:action="${anime.id} != null ? @{/animes/{id}/update(id=${anime.id})} : @{/animes}" th:object="${anime}" method="post">
-            <div class="form-group">
+            <input type="hidden" th:field="*{id}">
+            <div class="form-group" th:classappend="${#fields.hasErrors('titulo')} ? ' has-error' : ''">
                 <label for="titulo" data-i18n="form.field.title">Título</label>
-                <input id="titulo" type="text" th:field="*{titulo}" placeholder="Ex: Fullmetal Alchemist" data-i18n-placeholder="form.placeholder.title" required>
+                <input id="titulo" type="text" th:field="*{titulo}" placeholder="Ex: Fullmetal Alchemist" data-i18n-placeholder="form.placeholder.title" required th:classappend="${#fields.hasErrors('titulo')} ? ' is-invalid' : ''">
+                <p class="form-error" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></p>
             </div>
-            <div class="form-group">
+            <div class="form-group" th:classappend="${#fields.hasErrors('categoria')} ? ' has-error' : ''">
                 <label for="categoria" data-i18n="form.field.category">Categoria</label>
-                <select id="categoria" th:field="*{categoria}">
+                <select id="categoria" th:field="*{categoria}" th:classappend="${#fields.hasErrors('categoria')} ? ' is-invalid' : ''">
                     <option value="" th:if="${anime.categoria == null}" disabled selected data-i18n="form.select.placeholder">Selecione</option>
                     <option th:each="categoria : ${categorias}" th:value="${categoria}" th:text="${categoria}"></option>
                 </select>
+                <p class="form-error" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></p>
             </div>
-            <div class="form-group">
+            <div class="form-group" th:classappend="${#fields.hasErrors('anoLancamento')} ? ' has-error' : ''">
                 <label for="anoLancamento" data-i18n="form.field.releaseYear">Ano de lançamento</label>
-                <input id="anoLancamento" type="date" th:field="*{anoLancamento}">
+                <input id="anoLancamento" type="date" th:field="*{anoLancamento}" th:classappend="${#fields.hasErrors('anoLancamento')} ? ' is-invalid' : ''">
+                <p class="form-error" th:if="${#fields.hasErrors('anoLancamento')}" th:errors="*{anoLancamento}"></p>
             </div>
-            <div class="form-group">
+            <div class="form-group" th:classappend="${#fields.hasErrors('numEpisodios')} ? ' has-error' : ''">
                 <label for="numEpisodios" data-i18n="form.field.episodes">Número de episódios</label>
-                <input id="numEpisodios" type="number" min="1" th:field="*{numEpisodios}" placeholder="Ex: 24" data-i18n-placeholder="form.placeholder.episodes">
+                <input id="numEpisodios" type="number" min="1" th:field="*{numEpisodios}" placeholder="Ex: 24" data-i18n-placeholder="form.placeholder.episodes" th:classappend="${#fields.hasErrors('numEpisodios')} ? ' is-invalid' : ''">
+                <p class="form-error" th:if="${#fields.hasErrors('numEpisodios')}" th:errors="*{numEpisodios}"></p>
             </div>
             <div class="form-actions">
                 <button type="submit" class="button" data-i18n="form.actions.save">Salvar</button>
