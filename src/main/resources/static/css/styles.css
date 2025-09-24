@@ -65,6 +65,9 @@ body {
 }
 
 .language-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     border: none;
     background: none;
     color: var(--muted);
@@ -73,6 +76,15 @@ body {
     border-radius: 999px;
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
+}
+
+.language-flag {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.language-label {
+    font-size: 0.95rem;
 }
 
 .language-button:hover,

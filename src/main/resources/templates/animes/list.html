@@ -14,9 +14,22 @@
         </div>
         <div class="header-controls">
             <div class="language-switcher" role="group" data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
-                <button type="button" class="language-button" data-language="pt" data-i18n="language.portuguese" aria-pressed="true">Português</button>
-                <button type="button" class="language-button" data-language="en" data-i18n="language.english">Inglês</button>
-                <button type="button" class="language-button" data-language="es" data-i18n="language.spanish">Espanhol</button>
+                <button type="button" class="language-button" data-language="pt" aria-pressed="true">
+                    <span class="language-flag" aria-hidden="true">🇧🇷</span>
+                    <span class="language-label" data-i18n="language.portuguese">Português</span>
+                </button>
+                <button type="button" class="language-button" data-language="en">
+                    <span class="language-flag" aria-hidden="true">🇺🇸</span>
+                    <span class="language-label" data-i18n="language.english">Inglês</span>
+                </button>
+                <button type="button" class="language-button" data-language="es">
+                    <span class="language-flag" aria-hidden="true">🇪🇸</span>
+                    <span class="language-label" data-i18n="language.spanish">Espanhol</span>
+                </button>
+                <button type="button" class="language-button" data-language="ja">
+                    <span class="language-flag" aria-hidden="true">🇯🇵</span>
+                    <span class="language-label" data-i18n="language.japanese">Japonês</span>
+                </button>
             </div>
             <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" data-i18n-title="theme.toggle.title" title="Alternar tema">
                 <span class="theme-toggle-icon" aria-hidden="true">🌙</span>

@@ -1,13 +1,20 @@
 (function () {
     const storageKey = 'animeai-language';
     const defaultLanguage = 'pt';
-    const supportedLanguages = new Set(['pt', 'en', 'es']);
+    const supportedLanguages = new Set(['pt', 'en', 'es', 'ja']);
+    const localeMap = {
+        pt: 'pt-BR',
+        en: 'en',
+        es: 'es',
+        ja: 'ja'
+    };
 
     const translations = {
         pt: {
             'language.portuguese': 'Português',
             'language.english': 'Inglês',
             'language.spanish': 'Espanhol',
+            'language.japanese': 'Japonês',
             'language.switcher.label': 'Seleção de idioma',
             'theme.toggle.title': 'Alternar tema',
             'theme.toggle.light': 'Modo claro',
@@ -51,6 +58,7 @@
             'language.portuguese': 'Portuguese',
             'language.english': 'English',
             'language.spanish': 'Spanish',
+            'language.japanese': 'Japanese',
             'language.switcher.label': 'Language selection',
             'theme.toggle.title': 'Toggle theme',
             'theme.toggle.light': 'Light mode',
@@ -94,6 +102,7 @@
             'language.portuguese': 'Portugués',
             'language.english': 'Inglés',
             'language.spanish': 'Español',
+            'language.japanese': 'Japonés',
             'language.switcher.label': 'Selección de idioma',
             'theme.toggle.title': 'Cambiar tema',
             'theme.toggle.light': 'Modo claro',
@@ -132,6 +141,50 @@
             'suggestion.header.description': 'Con base en tu lista actual, aquí tienes algunas recomendaciones.',
             'suggestion.section.title': 'Resultado',
             'suggestion.actions.back': 'Volver a la lista'
+        },
+        ja: {
+            'language.portuguese': 'ポルトガル語',
+            'language.english': '英語',
+            'language.spanish': 'スペイン語',
+            'language.japanese': '日本語',
+            'language.switcher.label': '言語の選択',
+            'theme.toggle.title': 'テーマを切り替える',
+            'theme.toggle.light': 'ライトモード',
+            'theme.toggle.dark': 'ダークモード',
+            'list.meta.title': 'AnimeAI - アニメカタログ',
+            'list.header.description': 'アニメコレクションを管理して、あなたに合わせたおすすめを受け取りましょう。',
+            'list.actions.new': '新しいアニメを登録',
+            'list.actions.suggestion': 'おすすめが欲しい',
+            'list.section.title': 'マイアニメ',
+            'list.table.title': 'タイトル',
+            'list.table.category': 'カテゴリー',
+            'list.table.releaseYear': '公開年',
+            'list.table.episodes': 'エピソード数',
+            'list.table.actions': '操作',
+            'list.table.edit': '編集',
+            'list.table.delete': '削除',
+            'list.confirm.delete': 'このアニメを削除してもよろしいですか？',
+            'list.empty': 'まだアニメが登録されていません。',
+            'layout.footer': 'AnimeAI — Spring Boot と Thymeleaf で動作しています。',
+            'form.meta.title.new': 'アニメを登録',
+            'form.meta.title.edit': 'アニメを編集',
+            'form.header.title.new': 'アニメを登録',
+            'form.header.title.edit': 'アニメを編集',
+            'form.header.description': '以下の情報を入力して、リストを常に最新の状態に保ちましょう。',
+            'form.field.title': 'タイトル',
+            'form.placeholder.title': '例: 鋼の錬金術師',
+            'form.field.category': 'カテゴリー',
+            'form.select.placeholder': '選択してください',
+            'form.field.releaseYear': '公開年',
+            'form.field.episodes': 'エピソード数',
+            'form.placeholder.episodes': '例: 24',
+            'form.actions.save': '保存',
+            'form.actions.cancel': 'キャンセル',
+            'suggestion.meta.title': 'アニメのおすすめ',
+            'suggestion.header.title': 'パーソナライズされたおすすめ',
+            'suggestion.header.description': '現在のリストに基づき、いくつかのおすすめをご紹介します。',
+            'suggestion.section.title': '結果',
+            'suggestion.actions.back': '一覧に戻る'
         }
     };
 
@@ -215,7 +268,7 @@
     };
 
     const applyTranslations = () => {
-        const locale = currentLanguage === 'pt' ? 'pt-BR' : currentLanguage === 'es' ? 'es' : 'en';
+        const locale = localeMap[currentLanguage] || currentLanguage;
         document.documentElement.setAttribute('lang', locale);
 
         const textElements = document.querySelectorAll('[data-i18n]');
