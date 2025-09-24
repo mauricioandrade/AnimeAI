@@ -13,13 +13,13 @@
 body.dark-mode {
     --primary: #8b8dfc;
     --primary-dark: #7375f8;
-    --background: #0f172a;
-    --surface: #1e293b;
-    --text: #e2e8f0;
-    --muted: #94a3b8;
+    --background: #050505;
+    --surface: #0f0f10;
+    --text: #f5f5f5;
+    --muted: #cbd5f5;
     --danger: #fca5a5;
     --success: #4ade80;
-    --border: #334155;
+    --border: #1f1f22;
 }
 
 * {
@@ -28,10 +28,24 @@ body.dark-mode {
 
 body {
     margin: 0;
-    font-family: "Inter", "Segoe UI", sans-serif;
+    font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
     background: var(--background);
     color: var(--text);
-    line-height: 1.6;
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+p {
+    color: var(--text);
+    font-size: 1.05rem;
+    max-width: 65ch;
 }
 
 .header-layout {
@@ -195,7 +209,7 @@ body.dark-mode .page-footer {
 
 .page-header h1 {
     margin: 0 0 0.5rem;
-    font-size: 2.4rem;
+    font-size: clamp(2.1rem, 4vw, 2.6rem);
     color: var(--primary);
 }
 
@@ -213,8 +227,8 @@ body.dark-mode .page-footer {
 }
 
 body.dark-mode .card {
-    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.65);
-    border: 1px solid rgba(148, 163, 184, 0.16);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.14);
 }
 
 .card h2 {
@@ -343,8 +357,12 @@ body.dark-mode .button.danger:hover {
     background: rgba(93, 95, 239, 0.05);
 }
 
+body.dark-mode .anime-table tbody tr {
+    background: rgba(15, 15, 16, 0.75);
+}
+
 body.dark-mode .anime-table tbody tr:hover {
-    background: rgba(139, 141, 252, 0.1);
+    background: rgba(139, 141, 252, 0.16);
 }
 
 .actions-header,
@@ -381,6 +399,7 @@ body.dark-mode .anime-table tbody tr:hover {
 
 .form-group label {
     font-weight: 600;
+    color: var(--text);
 }
 
 .form-group input,
@@ -397,6 +416,33 @@ body.dark-mode .anime-table tbody tr:hover {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(93, 95, 239, 0.2);
+}
+
+body.dark-mode .form-group input,
+body.dark-mode .form-group select {
+    background: #111113;
+    color: var(--text);
+    border-color: #2d2d32;
+}
+
+body.dark-mode .form-group input:focus,
+body.dark-mode .form-group select:focus {
+    box-shadow: 0 0 0 3px rgba(115, 117, 248, 0.28);
+}
+
+.form-group .form-error {
+    margin: 0.25rem 0 0;
+    font-size: 0.875rem;
+    color: var(--danger);
+}
+
+.form-group.has-error label {
+    color: var(--danger);
+}
+
+.is-invalid {
+    border-color: var(--danger) !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
 }
 
 .form-actions {

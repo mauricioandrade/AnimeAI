@@ -10,9 +10,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,9 +66,13 @@ public class AnimeController {
     })
     public ResponseEntity<AnimeModel> findByTitulo(@Parameter(description = "Título completo do anime", example = "Naruto")
                                                    @PathVariable String titulo) {
-        Optional<AnimeModel> anime = animeService.findByTitulo(titulo);
-        return anime.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        try {
+            Optional<AnimeModel> anime = animeService.findByTitulo(titulo);
+            return anime.map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/categoria/{categoria}")
@@ -92,12 +96,14 @@ public class AnimeController {
                             schema = @Schema(implementation = AnimeModel.class))),
             @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content)
     })
-    public ResponseEntity<AnimeModel> save(@Validated @RequestBody AnimeModel anime) {
+    public ResponseEntity<AnimeModel> save(@Valid @RequestBody AnimeModel anime) {
         try {
             AnimeModel animeSalvo = animeService.save(anime);
             return ResponseEntity.status(HttpStatus.CREATED).body(animeSalvo);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -111,10 +117,14 @@ public class AnimeController {
     })
     public ResponseEntity<AnimeModel> updateById(@Parameter(description = "Identificador do anime", example = "1")
                                                  @PathVariable Long id,
-                                                 @Validated @RequestBody AnimeModel anime) {
-        Optional<AnimeModel> animeAtualizado = animeService.updateById(id, anime);
-        return animeAtualizado.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                                                 @Valid @RequestBody AnimeModel anime) {
+        try {
+            Optional<AnimeModel> animeAtualizado = animeService.updateById(id, anime);
+            return animeAtualizado.map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/{id}")
