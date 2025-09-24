@@ -2,36 +2,49 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Sugestões de animes</title>
+    <title data-i18n-document-title="suggestion.meta.title">Sugestões de animes</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <header class="page-header">
     <div class="container header-layout">
         <div class="header-text">
-            <h1>Sugestão personalizada</h1>
-            <p>Baseado na sua lista atual, aqui estão algumas recomendações.</p>
+            <h1 data-i18n="suggestion.header.title">Sugestão personalizada</h1>
+            <p data-i18n="suggestion.header.description">Baseado na sua lista atual, aqui estão algumas recomendações.</p>
         </div>
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" title="Alternar tema">
-            <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
-            <span class="theme-toggle-text">Modo escuro</span>
-        </button>
+        <div class="header-controls">
+            <div class="language-switcher" role="group" data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
+                <button type="button" class="language-button" data-language="pt" data-i18n="language.portuguese" aria-pressed="true">Português</button>
+                <button type="button" class="language-button" data-language="en" data-i18n="language.english">Inglês</button>
+                <button type="button" class="language-button" data-language="es" data-i18n="language.spanish">Espanhol</button>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" data-i18n-title="theme.toggle.title" title="Alternar tema">
+                <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+                <span class="theme-toggle-text"
+                      data-i18n="theme.toggle.dark"
+                      data-label-dark="Modo escuro"
+                      data-label-dark-key="theme.toggle.dark"
+                      data-label-light="Modo claro"
+                      data-label-light-key="theme.toggle.light">Modo escuro</span>
+            </button>
+        </div>
     </div>
 </header>
 <main class="container">
     <section class="card">
-        <h2>Resultado</h2>
+        <h2 data-i18n="suggestion.section.title">Resultado</h2>
         <pre class="suggestion" th:text="${suggestion}"></pre>
         <div class="form-actions">
-            <a class="button" th:href="@{/animes}">Voltar para a lista</a>
+            <a class="button" th:href="@{/animes}" data-i18n="suggestion.actions.back">Voltar para a lista</a>
         </div>
     </section>
 </main>
 <footer class="page-footer">
     <div class="container">
-        <p>AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
+        <p data-i18n="layout.footer">AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
     </div>
 </footer>
+<script th:src="@{/js/i18n.js}"></script>
 <script th:src="@{/js/theme.js}"></script>
 </body>
 </html>

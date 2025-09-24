@@ -2,7 +2,7 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>AnimeAI - Catálogo de Animes</title>
+    <title data-i18n-document-title="list.meta.title">AnimeAI - Catálogo de Animes</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
@@ -10,12 +10,24 @@
     <div class="container header-layout">
         <div class="header-text">
             <h1>AnimeAI</h1>
-            <p>Gerencie sua coleção de animes e peça sugestões personalizadas.</p>
+            <p data-i18n="list.header.description">Gerencie sua coleção de animes e peça sugestões personalizadas.</p>
         </div>
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" title="Alternar tema">
-            <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
-            <span class="theme-toggle-text">Modo escuro</span>
-        </button>
+        <div class="header-controls">
+            <div class="language-switcher" role="group" data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
+                <button type="button" class="language-button" data-language="pt" data-i18n="language.portuguese" aria-pressed="true">Português</button>
+                <button type="button" class="language-button" data-language="en" data-i18n="language.english">Inglês</button>
+                <button type="button" class="language-button" data-language="es" data-i18n="language.spanish">Espanhol</button>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" data-i18n-title="theme.toggle.title" title="Alternar tema">
+                <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+                <span class="theme-toggle-text"
+                      data-i18n="theme.toggle.dark"
+                      data-label-dark="Modo escuro"
+                      data-label-dark-key="theme.toggle.dark"
+                      data-label-light="Modo claro"
+                      data-label-light-key="theme.toggle.light">Modo escuro</span>
+            </button>
+        </div>
     </div>
 </header>
 <main class="container">
@@ -23,21 +35,21 @@
     <div th:if="${errorMessage}" class="alert error" th:text="${errorMessage}"></div>
 
     <div class="actions">
-        <a class="button" th:href="@{/animes/new}">Cadastrar novo anime</a>
-        <a class="button secondary" th:href="@{/animes/suggestion}">Quero uma sugestão</a>
+        <a class="button" th:href="@{/animes/new}" data-i18n="list.actions.new">Cadastrar novo anime</a>
+        <a class="button secondary" th:href="@{/animes/suggestion}" data-i18n="list.actions.suggestion">Quero uma sugestão</a>
     </div>
 
     <section class="card">
-        <h2>Meus animes</h2>
+        <h2 data-i18n="list.section.title">Meus animes</h2>
         <div class="table-responsive">
             <table class="anime-table">
                 <thead>
                 <tr>
-                    <th>Título</th>
-                    <th>Categoria</th>
-                    <th>Ano de lançamento</th>
-                    <th>Episódios</th>
-                    <th class="actions-header">Ações</th>
+                    <th data-i18n="list.table.title">Título</th>
+                    <th data-i18n="list.table.category">Categoria</th>
+                    <th data-i18n="list.table.releaseYear">Ano de lançamento</th>
+                    <th data-i18n="list.table.episodes">Episódios</th>
+                    <th class="actions-header" data-i18n="list.table.actions">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,14 +59,14 @@
                     <td th:text="${anime.anoLancamento != null ? #temporals.format(anime.anoLancamento, 'dd/MM/yyyy') : '—'}"></td>
                     <td th:text="${anime.numEpisodios != null ? anime.numEpisodios : '—'}"></td>
                     <td class="actions-cell">
-                        <a class="button small secondary" th:href="@{/animes/{id}/edit(id=${anime.id})}">Editar</a>
+                        <a class="button small secondary" th:href="@{/animes/{id}/edit(id=${anime.id})}" data-i18n="list.table.edit">Editar</a>
                         <form th:action="@{/animes/{id}/delete(id=${anime.id})}" method="post" class="inline-form">
-                            <button type="submit" class="button small danger" onclick="return confirm('Tem certeza que deseja remover este anime?');">Excluir</button>
+                            <button type="submit" class="button small danger js-delete-button" data-confirm-key="list.confirm.delete" data-i18n="list.table.delete">Excluir</button>
                         </form>
                     </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(animes)}">
-                    <td colspan="5" class="empty-state">Nenhum anime cadastrado até o momento.</td>
+                    <td colspan="5" class="empty-state" data-i18n="list.empty">Nenhum anime cadastrado até o momento.</td>
                 </tr>
                 </tbody>
             </table>
@@ -63,9 +75,10 @@
 </main>
 <footer class="page-footer">
     <div class="container">
-        <p>AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
+        <p data-i18n="layout.footer">AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
     </div>
 </footer>
+<script th:src="@{/js/i18n.js}"></script>
 <script th:src="@{/js/theme.js}"></script>
 </body>
 </html>

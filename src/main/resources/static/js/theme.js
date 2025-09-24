@@ -10,6 +10,15 @@
     const icon = toggle.querySelector('.theme-toggle-icon');
     const text = toggle.querySelector('.theme-toggle-text');
 
+    const getToggleLabel = (isDarkMode) => {
+        if (!text) {
+            return '';
+        }
+
+        const datasetKey = isDarkMode ? 'labelLight' : 'labelDark';
+        return text.dataset[datasetKey] || text.textContent || '';
+    };
+
     const applyTheme = (theme) => {
         const isDark = theme === 'dark';
         body.classList.toggle('dark-mode', isDark);
@@ -20,7 +29,7 @@
         }
 
         if (text) {
-            text.textContent = isDark ? 'Modo claro' : 'Modo escuro';
+            text.textContent = getToggleLabel(isDark);
         }
     };
 
