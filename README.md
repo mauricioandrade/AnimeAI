@@ -11,6 +11,7 @@ AnimeAI é uma aplicação Spring Boot que combina uma API REST, páginas Thymel
 - [▶️ Executando o Projeto](#️-executando-o-projeto)
 - [🔐 Variáveis de Ambiente](#-variáveis-de-ambiente)
 - [🛰️ Endpoints REST](#️-endpoints-rest)
+- [📘 Swagger / OpenAPI](#-swagger--openapi)
 - [🖥️ Interface Web](#️-interface-web)
 - [🧪 Testes](#-testes)
 - [🚀 Próximos Passos](#-próximos-passos)
@@ -74,6 +75,7 @@ AnimeAI/
 Depois que a aplicação subir:
 - Acesse `http://localhost:8080/animes` para a interface web.
 - A API REST estará disponível sob `http://localhost:8080/anime`.
+- A documentação Swagger pode ser consultada em `http://localhost:8080/swagger-ui.html`.
 - O console do H2 pode ser aberto em `http://localhost:8080/h2` (JDBC URL: `jdbc:h2:file:./data/anime-db`).
 
 Para encerrar, pressione `Ctrl + C` no terminal.
@@ -126,6 +128,11 @@ Content-Type: application/json
 2. "Demon Slayer" entrega ação frenética e estética impecável.
 ```
 *(O resultado final depende do catálogo cadastrado e da resposta do modelo da OpenAI.)*
+
+## 📘 Swagger / OpenAPI
+- A documentação interativa pode ser acessada em [`http://localhost:8080/swagger-ui.html`](http://localhost:8080/swagger-ui.html).
+- O contrato OpenAPI em formato JSON está disponível em [`http://localhost:8080/v3/api-docs`](http://localhost:8080/v3/api-docs).
+- Sempre que novos endpoints forem adicionados, utilize as anotações do SpringDoc para mantê-los documentados automaticamente.
 
 ## 🖥️ Interface Web
 - `/animes` — lista paginada com alertas de sucesso/erro e ações para editar/excluir.
