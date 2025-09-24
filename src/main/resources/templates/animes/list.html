@@ -15,19 +15,27 @@
         <div class="header-controls">
             <div class="language-switcher" role="group" data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
                 <button type="button" class="language-button" data-language="pt" aria-pressed="true">
-                    <span class="language-flag" aria-hidden="true">🇧🇷</span>
+                    <span class="language-flag" aria-hidden="true">
+                        <img class="language-icon" th:src="@{/img/flags/flag-pt.svg}" alt="">
+                    </span>
                     <span class="language-label" data-i18n="language.portuguese">Português</span>
                 </button>
                 <button type="button" class="language-button" data-language="en">
-                    <span class="language-flag" aria-hidden="true">🇺🇸</span>
+                    <span class="language-flag" aria-hidden="true">
+                        <img class="language-icon" th:src="@{/img/flags/flag-en.svg}" alt="">
+                    </span>
                     <span class="language-label" data-i18n="language.english">Inglês</span>
                 </button>
                 <button type="button" class="language-button" data-language="es">
-                    <span class="language-flag" aria-hidden="true">🇪🇸</span>
+                    <span class="language-flag" aria-hidden="true">
+                        <img class="language-icon" th:src="@{/img/flags/flag-es.svg}" alt="">
+                    </span>
                     <span class="language-label" data-i18n="language.spanish">Espanhol</span>
                 </button>
                 <button type="button" class="language-button" data-language="ja">
-                    <span class="language-flag" aria-hidden="true">🇯🇵</span>
+                    <span class="language-flag" aria-hidden="true">
+                        <img class="language-icon" th:src="@{/img/flags/flag-ja.svg}" alt="">
+                    </span>
                     <span class="language-label" data-i18n="language.japanese">Japonês</span>
                 </button>
             </div>
@@ -67,11 +75,11 @@
                 </thead>
                 <tbody>
                 <tr th:each="anime : ${animes}">
-                    <td th:text="${anime.titulo}"></td>
-                    <td th:text="${anime.categoria != null ? anime.categoria : '—'}"></td>
-                    <td th:text="${anime.anoLancamento != null ? #temporals.format(anime.anoLancamento, 'dd/MM/yyyy') : '—'}"></td>
-                    <td th:text="${anime.numEpisodios != null ? anime.numEpisodios : '—'}"></td>
-                    <td class="actions-cell">
+                    <td data-label="Título" data-i18n-label="list.table.title" th:text="${anime.titulo}"></td>
+                    <td data-label="Categoria" data-i18n-label="list.table.category" th:text="${anime.categoria != null ? anime.categoria : '—'}"></td>
+                    <td data-label="Ano de lançamento" data-i18n-label="list.table.releaseYear" th:text="${anime.anoLancamento != null ? #temporals.format(anime.anoLancamento, 'dd/MM/yyyy') : '—'}"></td>
+                    <td data-label="Episódios" data-i18n-label="list.table.episodes" th:text="${anime.numEpisodios != null ? anime.numEpisodios : '—'}"></td>
+                    <td class="actions-cell" data-label="Ações" data-i18n-label="list.table.actions">
                         <a class="button small secondary" th:href="@{/animes/{id}/edit(id=${anime.id})}" data-i18n="list.table.edit">Editar</a>
                         <form th:action="@{/animes/{id}/delete(id=${anime.id})}" method="post" class="inline-form">
                             <button type="submit" class="button small danger js-delete-button" data-confirm-key="list.confirm.delete" data-i18n="list.table.delete">Excluir</button>
