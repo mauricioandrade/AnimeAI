@@ -2,56 +2,71 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${anime.id == null} ? 'Cadastrar anime' : 'Editar anime'"></title>
+    <title th:text="${anime.id == null} ? 'Cadastrar anime' : 'Editar anime'"
+           th:attr="data-i18n-document-title=${anime.id == null} ? 'form.meta.title.new' : 'form.meta.title.edit'"></title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <header class="page-header">
     <div class="container header-layout">
         <div class="header-text">
-            <h1 th:text="${anime.id == null} ? 'Cadastrar anime' : 'Editar anime'"></h1>
-            <p>Preencha os dados abaixo e mantenha sua lista sempre atualizada.</p>
+            <h1 th:text="${anime.id == null} ? 'Cadastrar anime' : 'Editar anime'"
+                th:attr="data-i18n=${anime.id == null} ? 'form.header.title.new' : 'form.header.title.edit'"></h1>
+            <p data-i18n="form.header.description">Preencha os dados abaixo e mantenha sua lista sempre atualizada.</p>
         </div>
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" title="Alternar tema">
-            <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
-            <span class="theme-toggle-text">Modo escuro</span>
-        </button>
+        <div class="header-controls">
+            <div class="language-switcher" role="group" data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
+                <button type="button" class="language-button" data-language="pt" data-i18n="language.portuguese" aria-pressed="true">Português</button>
+                <button type="button" class="language-button" data-language="en" data-i18n="language.english">Inglês</button>
+                <button type="button" class="language-button" data-language="es" data-i18n="language.spanish">Espanhol</button>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" data-i18n-title="theme.toggle.title" title="Alternar tema">
+                <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+                <span class="theme-toggle-text"
+                      data-i18n="theme.toggle.dark"
+                      data-label-dark="Modo escuro"
+                      data-label-dark-key="theme.toggle.dark"
+                      data-label-light="Modo claro"
+                      data-label-light-key="theme.toggle.light">Modo escuro</span>
+            </button>
+        </div>
     </div>
 </header>
 <main class="container">
     <section class="card">
         <form class="anime-form" th:action="${anime.id} != null ? @{/animes/{id}/update(id=${anime.id})} : @{/animes}" th:object="${anime}" method="post">
             <div class="form-group">
-                <label for="titulo">Título</label>
-                <input id="titulo" type="text" th:field="*{titulo}" placeholder="Ex: Fullmetal Alchemist" required>
+                <label for="titulo" data-i18n="form.field.title">Título</label>
+                <input id="titulo" type="text" th:field="*{titulo}" placeholder="Ex: Fullmetal Alchemist" data-i18n-placeholder="form.placeholder.title" required>
             </div>
             <div class="form-group">
-                <label for="categoria">Categoria</label>
+                <label for="categoria" data-i18n="form.field.category">Categoria</label>
                 <select id="categoria" th:field="*{categoria}">
-                    <option value="" th:if="${anime.categoria == null}" disabled selected>Selecione</option>
+                    <option value="" th:if="${anime.categoria == null}" disabled selected data-i18n="form.select.placeholder">Selecione</option>
                     <option th:each="categoria : ${categorias}" th:value="${categoria}" th:text="${categoria}"></option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="anoLancamento">Ano de lançamento</label>
+                <label for="anoLancamento" data-i18n="form.field.releaseYear">Ano de lançamento</label>
                 <input id="anoLancamento" type="date" th:field="*{anoLancamento}">
             </div>
             <div class="form-group">
-                <label for="numEpisodios">Número de episódios</label>
-                <input id="numEpisodios" type="number" min="1" th:field="*{numEpisodios}" placeholder="Ex: 24">
+                <label for="numEpisodios" data-i18n="form.field.episodes">Número de episódios</label>
+                <input id="numEpisodios" type="number" min="1" th:field="*{numEpisodios}" placeholder="Ex: 24" data-i18n-placeholder="form.placeholder.episodes">
             </div>
             <div class="form-actions">
-                <button type="submit" class="button">Salvar</button>
-                <a class="button secondary" th:href="@{/animes}">Cancelar</a>
+                <button type="submit" class="button" data-i18n="form.actions.save">Salvar</button>
+                <a class="button secondary" th:href="@{/animes}" data-i18n="form.actions.cancel">Cancelar</a>
             </div>
         </form>
     </section>
 </main>
 <footer class="page-footer">
     <div class="container">
-        <p>AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
+        <p data-i18n="layout.footer">AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
     </div>
 </footer>
+<script th:src="@{/js/i18n.js}"></script>
 <script th:src="@{/js/theme.js}"></script>
 </body>
 </html>
