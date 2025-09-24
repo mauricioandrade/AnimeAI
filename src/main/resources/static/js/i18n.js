@@ -291,6 +291,17 @@
             element.setAttribute('placeholder', value);
         });
 
+        const dataLabelElements = document.querySelectorAll('[data-i18n-label]');
+        dataLabelElements.forEach((element) => {
+            const key = element.dataset.i18nLabel;
+            if (!key) {
+                return;
+            }
+            const value = translate(key);
+            element.dataset.label = value;
+            element.setAttribute('data-label', value);
+        });
+
         const titleElements = document.querySelectorAll('[data-i18n-title]');
         titleElements.forEach((element) => {
             const key = element.dataset.i18nTitle;
