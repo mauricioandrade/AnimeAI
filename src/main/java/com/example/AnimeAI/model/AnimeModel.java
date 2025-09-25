@@ -26,7 +26,12 @@ public class AnimeModel {
     @Column(nullable = false, length = 120)
     @NotBlank(message = "O título é obrigatório.")
     @Size(max = 120, message = "O título deve ter no máximo {max} caracteres.")
-    @Pattern(regexp = "^[\\p{L}\\p{N}\\s\-'.,:;!?()]+$", message = "O título contém caracteres inválidos.")
+    @Pattern(
+            regexp = """
+            ^[\\p{L}\\p{N}\\s\\-'.:,;!?()]+$
+            """,
+            message = "O título contém caracteres inválidos."
+    )
     private String titulo;
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
