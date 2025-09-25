@@ -11,8 +11,8 @@
 }
 
 body.dark-mode {
-    --primary: #8b8dfc;
-    --primary-dark: #7375f8;
+    --primary: #5d5fef;
+    --primary-dark: #4446c2;
     --background: #050505;
     --surface: #0f0f10;
     --text: #f5f5f5;
@@ -51,9 +51,21 @@ p {
 .header-layout {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 1.5rem;
     flex-wrap: wrap;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .header-controls {
@@ -61,11 +73,11 @@ p {
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 .header-text {
-    text-align: left;
+    text-align: center;
 }
 
 
@@ -74,10 +86,10 @@ p {
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem;
-    background: rgba(93, 95, 239, 0.08);
+    background: rgba(93, 95, 239, 0.12);
     border: 1px solid var(--border);
     border-radius: 999px;
-    padding: 0.3rem 0.6rem;
+    padding: 0.35rem 0.8rem;
 }
 
 .language-button {
@@ -88,7 +100,7 @@ p {
     background: none;
     color: var(--muted);
     font-weight: 600;
-    padding: 0.35rem 0.75rem;
+    padding: 0.45rem 1rem;
     border-radius: 999px;
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
@@ -117,7 +129,9 @@ body.dark-mode .language-flag {
 }
 
 .language-label {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .language-button:hover,
@@ -132,11 +146,11 @@ body.dark-mode .language-flag {
 }
 
 body.dark-mode .language-switcher {
-    background: rgba(139, 141, 252, 0.18);
+    background: rgba(93, 95, 239, 0.24);
 }
 
 body.dark-mode .language-button[aria-pressed="true"] {
-    color: #111827;
+    color: #fff;
 }
 
 .theme-toggle {
@@ -145,8 +159,8 @@ body.dark-mode .language-button[aria-pressed="true"] {
     gap: 0.5rem;
     border: 1px solid var(--border);
     border-radius: 999px;
-    padding: 0.45rem 1rem;
-    background: rgba(93, 95, 239, 0.1);
+    padding: 0.55rem 1.1rem;
+    background: rgba(93, 95, 239, 0.12);
     color: var(--text);
     font-weight: 600;
     cursor: pointer;
@@ -154,7 +168,7 @@ body.dark-mode .language-button[aria-pressed="true"] {
 }
 
 .theme-toggle:hover {
-    background: rgba(93, 95, 239, 0.18);
+    background: rgba(93, 95, 239, 0.2);
     border-color: var(--primary);
     transform: translateY(-1px);
 }
@@ -169,21 +183,32 @@ body.dark-mode .language-button[aria-pressed="true"] {
 }
 
 body.dark-mode .theme-toggle {
-    background: rgba(139, 141, 252, 0.2);
-    border-color: var(--border);
+    background: rgba(93, 95, 239, 0.22);
+    border-color: rgba(93, 95, 239, 0.35);
 }
 
 body.dark-mode .theme-toggle:hover {
-    background: rgba(139, 141, 252, 0.28);
+    background: rgba(93, 95, 239, 0.28);
 }
 
 body.dark-mode .theme-toggle:focus {
-    box-shadow: 0 0 0 3px rgba(139, 141, 252, 0.35);
+    box-shadow: 0 0 0 3px rgba(93, 95, 239, 0.35);
 }
 
 .container {
     width: min(960px, 92%);
     margin: 0 auto;
+}
+
+main.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+main.container > * {
+    width: 100%;
 }
 
 .page-header,
@@ -224,6 +249,9 @@ body.dark-mode .page-footer {
     padding: 2rem;
     box-shadow: 0 10px 30px rgba(93, 95, 239, 0.08);
     border: 1px solid rgba(93, 95, 239, 0.12);
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
 }
 
 body.dark-mode .card {
@@ -238,10 +266,12 @@ body.dark-mode .card {
 
 .actions {
     display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin: 2rem 0 1.5rem;
+    justify-content: center;
+    gap: 1.25rem;
+    margin: 2rem auto 1.5rem;
     flex-wrap: wrap;
+    width: 100%;
+    max-width: 780px;
 }
 
 .button {
@@ -251,10 +281,11 @@ body.dark-mode .card {
     gap: 0.5rem;
     border: none;
     border-radius: 999px;
-    padding: 0.65rem 1.5rem;
+    padding: 0.75rem 1.75rem;
     background: var(--primary);
     color: #fff;
     font-weight: 600;
+    font-size: 1rem;
     text-decoration: none;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -277,12 +308,13 @@ body.dark-mode .card {
 }
 
 body.dark-mode .button.secondary {
-    background: rgba(139, 141, 252, 0.18);
-    color: var(--text);
+    background: rgba(93, 95, 239, 0.25);
+    color: #fff;
 }
 
 body.dark-mode .button.secondary:hover {
-    background: rgba(139, 141, 252, 0.26);
+    background: rgba(93, 95, 239, 0.32);
+    color: #fff;
 }
 
 .button.danger {
@@ -306,8 +338,8 @@ body.dark-mode .button.danger:hover {
 }
 
 .button.small {
-    padding: 0.45rem 1rem;
-    font-size: 0.9rem;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.92rem;
 }
 
 .alert {
@@ -315,6 +347,10 @@ body.dark-mode .button.danger:hover {
     border-radius: 12px;
     margin-bottom: 1rem;
     font-weight: 600;
+    width: 100%;
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .alert.success {
@@ -362,7 +398,7 @@ body.dark-mode .anime-table tbody tr {
 }
 
 body.dark-mode .anime-table tbody tr:hover {
-    background: rgba(139, 141, 252, 0.16);
+    background: rgba(93, 95, 239, 0.22);
 }
 
 .actions-header,
@@ -398,8 +434,26 @@ body.dark-mode .anime-table tbody tr:hover {
 }
 
 .form-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-weight: 600;
     color: var(--text);
+    flex-wrap: wrap;
+}
+
+.optional-hint {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    background: rgba(93, 95, 239, 0.12);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+}
+
+body.dark-mode .optional-hint {
+    color: #dbe4ff;
+    background: rgba(93, 95, 239, 0.25);
 }
 
 .form-group input,
@@ -448,7 +502,8 @@ body.dark-mode .form-group select:focus {
 .form-actions {
     display: flex;
     gap: 1rem;
-    justify-content: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .suggestion {
@@ -461,8 +516,8 @@ body.dark-mode .form-group select:focus {
 }
 
 body.dark-mode .suggestion {
-    background: rgba(139, 141, 252, 0.12);
-    border: 1px solid rgba(139, 141, 252, 0.24);
+    background: rgba(93, 95, 239, 0.18);
+    border: 1px solid rgba(93, 95, 239, 0.32);
 }
 
 @media (max-width: 720px) {
