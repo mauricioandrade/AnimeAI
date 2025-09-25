@@ -1,12 +1,15 @@
 (function () {
     const storageKey = 'animeai-language';
     const defaultLanguage = 'pt';
-    const supportedLanguages = new Set(['pt', 'en', 'es', 'ja']);
+    const supportedLanguages = new Set(['pt', 'en', 'es', 'jp']);
+    const legacyLanguageMap = {
+        ja: 'jp'
+    };
     const localeMap = {
         pt: 'pt-BR',
         en: 'en',
         es: 'es',
-        ja: 'ja'
+        jp: 'ja'
     };
 
     const translations = {
@@ -44,6 +47,7 @@
             'form.field.category': 'Categoria',
             'form.select.placeholder': 'Selecione',
             'form.field.releaseYear': 'Ano de lançamento',
+            'form.field.optional': '(Opcional)',
             'form.field.episodes': 'Número de episódios',
             'form.placeholder.episodes': 'Ex: 24',
             'form.actions.save': 'Salvar',
@@ -88,6 +92,7 @@
             'form.field.category': 'Category',
             'form.select.placeholder': 'Select',
             'form.field.releaseYear': 'Release year',
+            'form.field.optional': '(Optional)',
             'form.field.episodes': 'Number of episodes',
             'form.placeholder.episodes': 'e.g., 24',
             'form.actions.save': 'Save',
@@ -132,6 +137,7 @@
             'form.field.category': 'Categoría',
             'form.select.placeholder': 'Selecciona',
             'form.field.releaseYear': 'Año de lanzamiento',
+            'form.field.optional': '(Opcional)',
             'form.field.episodes': 'Número de episodios',
             'form.placeholder.episodes': 'Ej: 24',
             'form.actions.save': 'Guardar',
@@ -142,7 +148,7 @@
             'suggestion.section.title': 'Resultado',
             'suggestion.actions.back': 'Volver a la lista'
         },
-        ja: {
+        jp: {
             'language.portuguese': 'ポルトガル語',
             'language.english': '英語',
             'language.spanish': 'スペイン語',
@@ -176,6 +182,7 @@
             'form.field.category': 'カテゴリー',
             'form.select.placeholder': '選択してください',
             'form.field.releaseYear': '公開年',
+            'form.field.optional': '（任意）',
             'form.field.episodes': 'エピソード数',
             'form.placeholder.episodes': '例: 24',
             'form.actions.save': '保存',
@@ -209,8 +216,11 @@
     const getStoredLanguage = () => {
         try {
             const stored = localStorage.getItem(storageKey);
-            if (stored && supportedLanguages.has(stored)) {
-                return stored;
+            if (stored) {
+                const normalized = legacyLanguageMap[stored] || stored;
+                if (supportedLanguages.has(normalized)) {
+                    return normalized;
+                }
             }
         } catch (error) {
             // Ignored: storage might be unavailable.
