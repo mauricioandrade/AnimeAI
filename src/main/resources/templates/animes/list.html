@@ -2,15 +2,23 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title data-i18n-document-title="list.meta.title">AnimeAI - Catálogo de Animes</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <header class="page-header">
     <div class="container header-layout">
-        <div class="header-text">
-            <h1>AnimeAI</h1>
-            <p data-i18n="list.header.description">Gerencie sua coleção de animes e peça sugestões personalizadas.</p>
+        <div class="header-primary">
+            <div class="header-text">
+                <h1>AnimeAI</h1>
+                <p data-i18n="list.header.description">Gerencie sua coleção de animes e peça sugestões personalizadas.</p>
+            </div>
+            <nav class="header-nav" aria-label="Navegação principal" data-i18n-aria-label="layout.nav.ariaLabel">
+                <a class="nav-link is-active" th:href="@{/animes}" data-i18n="layout.nav.catalog" aria-current="page">Catálogo</a>
+                <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new">Cadastrar</a>
+                <a class="nav-link" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion">Sugestões</a>
+            </nav>
         </div>
         <div class="header-controls">
             <div class="language-switcher" role="group" data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
@@ -59,7 +67,7 @@
     <div th:if="${message}" class="alert success" th:text="${message}"></div>
     <div th:if="${errorMessage}" class="alert error" th:text="${errorMessage}"></div>
 
-    <div class="actions">
+    <div class="toolbar actions" role="region" data-i18n-aria-label="list.toolbar.label" aria-label="Ações rápidas">
         <a class="button" th:href="@{/animes/new}" data-i18n="list.actions.new">Cadastrar novo anime</a>
         <a class="button secondary" th:href="@{/animes/suggestion}" data-i18n="list.actions.suggestion">Quero uma sugestão</a>
     </div>
@@ -67,6 +75,7 @@
     <section class="card">
         <h2 data-i18n="list.section.title">Meus animes</h2>
         <div class="table-responsive">
+            <p class="table-scroll-hint" data-i18n="list.table.scrollHint">Arraste horizontalmente para ver mais colunas</p>
             <table class="anime-table">
                 <thead>
                 <tr>

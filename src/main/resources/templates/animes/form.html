@@ -2,6 +2,7 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${anime.id == null} ? 'Cadastrar anime' : 'Editar anime'"
            th:attr="data-i18n-document-title=${anime.id == null} ? 'form.meta.title.new' : 'form.meta.title.edit'"></title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
@@ -9,10 +10,21 @@
 <body>
 <header class="page-header">
     <div class="container header-layout">
-        <div class="header-text">
-            <h1 th:text="${anime.id == null} ? 'Cadastrar anime' : 'Editar anime'"
-                th:attr="data-i18n=${anime.id == null} ? 'form.header.title.new' : 'form.header.title.edit'"></h1>
-            <p data-i18n="form.header.description">Preencha os dados abaixo e mantenha sua lista sempre atualizada.</p>
+        <div class="header-primary">
+            <div class="header-text">
+                <h1 th:text="${anime.id == null} ? 'Cadastrar anime' : 'Editar anime'"
+                    th:attr="data-i18n=${anime.id == null} ? 'form.header.title.new' : 'form.header.title.edit'"></h1>
+                <p data-i18n="form.header.description">Preencha os dados abaixo e mantenha sua lista sempre atualizada.</p>
+            </div>
+            <nav class="header-nav" aria-label="Navegação principal" data-i18n-aria-label="layout.nav.ariaLabel">
+                <a class="nav-link" th:href="@{/animes}" data-i18n="layout.nav.catalog"
+                   th:classappend="${anime.id != null} ? ' is-active' : ''"
+                   th:attr="aria-current=${anime.id != null} ? 'page' : null">Catálogo</a>
+                <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new"
+                   th:classappend="${anime.id == null} ? ' is-active' : ''"
+                   th:attr="aria-current=${anime.id == null} ? 'page' : null">Cadastrar</a>
+                <a class="nav-link" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion">Sugestões</a>
+            </nav>
         </div>
         <div class="header-controls">
             <div class="language-switcher" role="group" data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
