@@ -35,6 +35,25 @@ body {
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: -30% -30% auto;
+    height: 480px;
+    background: radial-gradient(circle at top, rgba(93, 95, 239, 0.18), transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+body.dark-mode::before {
+    background: radial-gradient(circle at top, rgba(93, 95, 239, 0.32), transparent 60%);
 }
 
 h1, h2, h3 {
@@ -49,11 +68,16 @@ p {
 }
 
 .header-layout {
-    display: flex;
-    align-items: center;
+    display: grid;
+    gap: 1.75rem;
     justify-content: center;
+    align-items: center;
+}
+
+.header-primary {
+    display: grid;
     gap: 1.5rem;
-    flex-wrap: wrap;
+    justify-items: center;
 }
 
 .sr-only {
@@ -78,6 +102,61 @@ p {
 
 .header-text {
     text-align: center;
+}
+
+.header-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.35rem 0.45rem;
+    background: rgba(93, 95, 239, 0.08);
+    border: 1px solid rgba(93, 95, 239, 0.12);
+    border-radius: 999px;
+    backdrop-filter: blur(12px);
+}
+
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: var(--primary);
+    outline: none;
+    background: rgba(93, 95, 239, 0.16);
+}
+
+.nav-link.is-active {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(93, 95, 239, 0.24);
+}
+
+body.dark-mode .header-nav {
+    background: rgba(93, 95, 239, 0.18);
+    border-color: rgba(93, 95, 239, 0.32);
+}
+
+body.dark-mode .nav-link {
+    color: #d0d4ff;
+}
+
+body.dark-mode .nav-link:hover,
+body.dark-mode .nav-link:focus {
+    color: #fff;
+    background: rgba(93, 95, 239, 0.32);
 }
 
 
@@ -205,6 +284,7 @@ main.container {
     flex-direction: column;
     gap: 1.5rem;
     align-items: center;
+    flex: 1;
 }
 
 main.container > * {
@@ -219,9 +299,26 @@ main.container > * {
     text-align: center;
 }
 
+.page-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(93, 95, 239, 0.12), transparent 55%);
+    pointer-events: none;
+}
+
 body.dark-mode .page-header,
 body.dark-mode .page-footer {
     box-shadow: none;
+}
+
+body.dark-mode .page-header::after {
+    background: linear-gradient(135deg, rgba(93, 95, 239, 0.28), transparent 60%);
 }
 
 .page-footer {
@@ -278,6 +375,22 @@ body.dark-mode .card {
     flex-wrap: wrap;
     width: 100%;
     max-width: 780px;
+}
+
+.toolbar {
+    position: relative;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 18px 40px rgba(93, 95, 239, 0.1);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(93, 95, 239, 0.12);
+}
+
+body.dark-mode .toolbar {
+    background: rgba(15, 15, 16, 0.7);
+    border-color: rgba(148, 163, 184, 0.16);
+    box-shadow: 0 20px 48px rgba(15, 23, 42, 0.45);
 }
 
 .button {
@@ -372,12 +485,24 @@ body.dark-mode .button.danger:hover {
 .table-responsive {
     overflow-x: auto;
     border-radius: 18px;
+    padding-bottom: 0.5rem;
 }
 
 .anime-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
+}
+
+.table-scroll-hint {
+    margin: 0;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
 }
 
 .anime-table th,
@@ -439,6 +564,34 @@ body.dark-mode .anime-table tbody tr:hover {
     text-align: center;
     padding: 2rem 0;
     color: var(--muted);
+}
+
+.suggestion {
+    background: rgba(93, 95, 239, 0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+    border: 1px solid rgba(93, 95, 239, 0.18);
+}
+
+body.dark-mode .suggestion {
+    background: rgba(93, 95, 239, 0.22);
+    border-color: rgba(93, 95, 239, 0.32);
+    color: #e5e7ff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
 
 .anime-form {
@@ -525,20 +678,6 @@ body.dark-mode .form-group select:focus {
     flex-wrap: wrap;
 }
 
-.suggestion {
-    background: rgba(93, 95, 239, 0.05);
-    border-radius: 12px;
-    padding: 1.5rem;
-    white-space: pre-wrap;
-    font-family: "JetBrains Mono", "Fira Code", monospace;
-    border: 1px solid rgba(93, 95, 239, 0.12);
-}
-
-body.dark-mode .suggestion {
-    background: rgba(93, 95, 239, 0.18);
-    border: 1px solid rgba(93, 95, 239, 0.32);
-}
-
 @media (max-width: 720px) {
     .header-layout {
         justify-content: center;
@@ -586,7 +725,50 @@ body.dark-mode .suggestion {
     }
 }
 
+@media (min-width: 768px) {
+    .header-layout {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+    }
+
+    .header-primary {
+        justify-items: flex-start;
+    }
+
+    .header-text {
+        text-align: left;
+    }
+
+    .header-controls {
+        justify-content: flex-end;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .table-scroll-hint {
+        display: none;
+    }
+}
+
 @media (max-width: 640px) {
+    .header-nav {
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        gap: 0.5rem;
+        padding: 0.35rem 0.35rem;
+    }
+
+    .header-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-link {
+        flex: 0 0 auto;
+    }
+
     .page-header,
     .page-footer {
         padding: 1.75rem 0;
@@ -615,6 +797,10 @@ body.dark-mode .suggestion {
     .actions .button {
         width: 100%;
         justify-content: center;
+    }
+
+    .table-scroll-hint {
+        display: none;
     }
 
     .anime-table,
