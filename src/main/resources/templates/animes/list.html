@@ -27,45 +27,7 @@
             <a class="nav-link" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion">Sugestões</a>
         </nav>
         <div class="header-controls">
-            <div class="language-switcher" role="group" data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
-                <button type="button" class="language-toggle control-button" aria-haspopup="true" aria-expanded="false"
-                        data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
-                    <span class="language-toggle-flag" aria-hidden="true">
-                        <img class="language-icon" th:src="@{/img/flags/flag-pt.svg}" alt="">
-                    </span>
-                    <span class="language-toggle-label" data-default-label="BR">BR</span>
-                </button>
-                <div class="language-menu">
-                    <button type="button" class="language-button" data-language="pt" aria-pressed="true">
-                        <span class="language-flag" aria-hidden="true">
-                            <img class="language-icon" th:src="@{/img/flags/flag-pt.svg}" alt="">
-                        </span>
-                        <span class="language-label" aria-hidden="true">BR</span>
-                        <span class="sr-only" data-i18n="language.portuguese">Português</span>
-                    </button>
-                    <button type="button" class="language-button" data-language="en">
-                        <span class="language-flag" aria-hidden="true">
-                            <img class="language-icon" th:src="@{/img/flags/flag-en.svg}" alt="">
-                        </span>
-                        <span class="language-label" aria-hidden="true">EN</span>
-                        <span class="sr-only" data-i18n="language.english">Inglês</span>
-                    </button>
-                    <button type="button" class="language-button" data-language="es">
-                        <span class="language-flag" aria-hidden="true">
-                            <img class="language-icon" th:src="@{/img/flags/flag-es.svg}" alt="">
-                        </span>
-                        <span class="language-label" aria-hidden="true">ES</span>
-                        <span class="sr-only" data-i18n="language.spanish">Espanhol</span>
-                    </button>
-                    <button type="button" class="language-button" data-language="jp">
-                        <span class="language-flag" aria-hidden="true">
-                            <img class="language-icon" th:src="@{/img/flags/flag-jp.svg}" alt="">
-                        </span>
-                        <span class="language-label" aria-hidden="true">JP</span>
-                        <span class="sr-only" data-i18n="language.japanese">Japonês</span>
-                    </button>
-                </div>
-            </div>
+            <div th:replace="fragments/language-switcher :: languageSwitcher"></div>
             <button id="theme-toggle" class="theme-toggle control-button" type="button" aria-pressed="false" data-i18n-title="theme.toggle.title" title="Alternar tema">
                 <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
                 <span class="theme-toggle-text sr-only"
