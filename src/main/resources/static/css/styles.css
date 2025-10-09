@@ -69,15 +69,25 @@ p {
 
 .header-layout {
     display: grid;
-    gap: 1.75rem;
-    justify-content: center;
-    align-items: center;
-}
-
-.header-primary {
-    display: grid;
     gap: 1.5rem;
     justify-items: center;
+    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        "brand"
+        "nav"
+        "controls";
+    text-align: center;
+}
+
+.header-brand {
+    grid-area: brand;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .sr-only {
@@ -93,6 +103,7 @@ p {
 }
 
 .header-controls {
+    grid-area: controls;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -102,9 +113,11 @@ p {
 
 .header-text {
     text-align: center;
+    max-width: 36rem;
 }
 
 .header-nav {
+    grid-area: nav;
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
@@ -129,6 +142,85 @@ p {
     color: var(--muted);
     text-decoration: none;
     transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(93, 95, 239, 0.08);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    margin-top: 0.35rem;
+}
+
+.menu-toggle:hover {
+    background: rgba(93, 95, 239, 0.16);
+    border-color: rgba(93, 95, 239, 0.24);
+    transform: translateY(-1px);
+}
+
+.menu-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(93, 95, 239, 0.2);
+}
+
+.menu-toggle-bar {
+    position: relative;
+    display: block;
+    width: 1.35rem;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    transition: background 0.2s ease;
+}
+
+.menu-toggle-bar::before,
+.menu-toggle-bar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 1.35rem;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-toggle-bar::before {
+    transform: translateY(-6px);
+}
+
+.menu-toggle-bar::after {
+    transform: translateY(6px);
+}
+
+.menu-toggle.is-active .menu-toggle-bar {
+    background: transparent;
+}
+
+.menu-toggle.is-active .menu-toggle-bar::before {
+    transform: translateY(0) rotate(45deg);
+}
+
+.menu-toggle.is-active .menu-toggle-bar::after {
+    transform: translateY(0) rotate(-45deg);
+}
+
+body.dark-mode .menu-toggle {
+    background: rgba(93, 95, 239, 0.22);
+    border-color: rgba(93, 95, 239, 0.35);
+    color: #f8fafc;
+}
+
+body.dark-mode .menu-toggle:hover {
+    background: rgba(93, 95, 239, 0.28);
+    border-color: rgba(93, 95, 239, 0.4);
 }
 
 .nav-link:hover,
@@ -484,14 +576,16 @@ body.dark-mode .button.danger:hover {
 
 .table-responsive {
     overflow-x: auto;
-    border-radius: 18px;
+    border-radius: 20px;
     padding-bottom: 0.5rem;
 }
 
 .anime-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin-top: 1rem;
+    background: transparent;
 }
 
 .table-scroll-hint {
@@ -505,31 +599,119 @@ body.dark-mode .button.danger:hover {
     text-align: center;
 }
 
-.anime-table th,
-.anime-table td {
-    padding: 0.9rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-}
-
 .anime-table thead th {
     color: var(--muted);
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    padding: 0.85rem 1rem;
+    background: rgba(93, 95, 239, 0.08);
+    border-bottom: 1px solid rgba(93, 95, 239, 0.18);
 }
 
-.anime-table tbody tr:hover {
+.anime-table thead th:first-child {
+    border-top-left-radius: 16px;
+}
+
+.anime-table thead th:last-child {
+    border-top-right-radius: 16px;
+}
+
+body.dark-mode .anime-table thead th {
+    background: rgba(93, 95, 239, 0.22);
+    color: #e5e7ff;
+    border-bottom-color: rgba(93, 95, 239, 0.32);
+}
+
+.anime-table th,
+.anime-table td {
+    padding: 1rem 1.15rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.anime-table tbody tr {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.anime-table tbody tr:nth-child(odd) {
+    background: rgba(93, 95, 239, 0.02);
+}
+
+.anime-table tbody tr:nth-child(even) {
     background: rgba(93, 95, 239, 0.05);
 }
 
-body.dark-mode .anime-table tbody tr {
-    background: rgba(15, 15, 16, 0.75);
+.anime-table tbody tr:hover {
+    background: rgba(93, 95, 239, 0.12);
+    transform: translateY(-2px);
+}
+
+.anime-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.anime-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 16px;
+}
+
+.anime-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 16px;
+}
+
+body.dark-mode .anime-table tbody tr:nth-child(odd) {
+    background: rgba(93, 95, 239, 0.08);
+}
+
+body.dark-mode .anime-table tbody tr:nth-child(even) {
+    background: rgba(93, 95, 239, 0.14);
 }
 
 body.dark-mode .anime-table tbody tr:hover {
-    background: rgba(93, 95, 239, 0.22);
+    background: rgba(93, 95, 239, 0.24);
+}
+
+.cell-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text);
+}
+
+.cell-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.cell-muted {
+    color: var(--muted);
+    font-style: italic;
+}
+
+.data-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(93, 95, 239, 0.18);
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+body.dark-mode .data-chip {
+    background: rgba(93, 95, 239, 0.32);
+    color: #fff;
 }
 
 .actions-header,
@@ -678,20 +860,38 @@ body.dark-mode .form-group select:focus {
     flex-wrap: wrap;
 }
 
+@media (max-width: 1023px) {
+    .header-brand {
+        width: 100%;
+    }
+
+    .header-nav {
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        padding: 1rem 1.25rem;
+        border-radius: 20px;
+        box-shadow: 0 22px 45px rgba(15, 23, 42, 0.18);
+    }
+
+    .header-nav.is-open {
+        display: flex;
+    }
+
+    .header-nav .nav-link {
+        width: 100%;
+    }
+
+    body.dark-mode .header-nav {
+        background: rgba(15, 15, 16, 0.72);
+        border-color: rgba(148, 163, 184, 0.25);
+        box-shadow: 0 28px 55px rgba(15, 23, 42, 0.6);
+    }
+}
+
 @media (max-width: 720px) {
-    .header-layout {
-        justify-content: center;
-        text-align: center;
-    }
-
-    .header-text {
-        text-align: center;
-    }
-
-    .header-controls {
-        justify-content: center;
-    }
-
     .language-switcher {
         display: flex;
         width: 100%;
@@ -728,11 +928,14 @@ body.dark-mode .form-group select:focus {
 @media (min-width: 768px) {
     .header-layout {
         grid-template-columns: minmax(0, 1fr) auto;
-        align-items: center;
+        grid-template-areas:
+            "brand controls"
+            "nav nav";
     }
 
-    .header-primary {
-        justify-items: flex-start;
+    .header-brand {
+        flex-direction: row;
+        justify-content: flex-start;
     }
 
     .header-text {
@@ -741,6 +944,11 @@ body.dark-mode .form-group select:focus {
 
     .header-controls {
         justify-content: flex-end;
+    }
+
+    .menu-toggle {
+        margin-top: 0;
+        margin-left: auto;
     }
 
     .toolbar {
@@ -752,23 +960,26 @@ body.dark-mode .form-group select:focus {
     }
 }
 
-@media (max-width: 640px) {
-    .header-nav {
-        width: 100%;
-        justify-content: flex-start;
-        overflow-x: auto;
-        gap: 0.5rem;
-        padding: 0.35rem 0.35rem;
+@media (min-width: 1024px) {
+    .header-layout {
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        grid-template-areas: "brand nav controls";
     }
 
-    .header-nav::-webkit-scrollbar {
+    .header-brand {
+        width: auto;
+    }
+
+    .menu-toggle {
         display: none;
     }
 
-    .nav-link {
-        flex: 0 0 auto;
+    .header-nav {
+        padding: 0.45rem 0.65rem;
     }
+}
 
+@media (max-width: 640px) {
     .page-header,
     .page-footer {
         padding: 1.75rem 0;
@@ -798,81 +1009,9 @@ body.dark-mode .form-group select:focus {
         width: 100%;
         justify-content: center;
     }
-
-    .table-scroll-hint {
-        display: none;
-    }
-
-    .anime-table,
-    .anime-table tbody,
-    .anime-table tr,
-    .anime-table td {
-        display: block;
-        width: 100%;
-    }
-
-    .anime-table thead {
-        display: none;
-    }
-
-    .anime-table tbody tr {
-        margin-bottom: 1.25rem;
-        padding: 1.25rem;
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        background: var(--surface);
-        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
-    }
-
-    body.dark-mode .anime-table tbody tr {
-        border-color: rgba(148, 163, 184, 0.22);
-        box-shadow: 0 18px 36px rgba(15, 23, 42, 0.65);
-    }
-
-    .anime-table td {
-        padding: 0;
-        border: none;
-    }
-
-    .anime-table td + td {
-        margin-top: 0.9rem;
-    }
-
-    .anime-table td::before {
-        content: attr(data-label);
-        display: block;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--muted);
-        margin-bottom: 0.35rem;
-    }
-
-    .anime-table td.actions-cell {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.65rem;
-    }
-
-    .anime-table td.actions-cell::before {
-        flex-basis: 100%;
-    }
-
-    .actions-cell .button,
-    .actions-cell .inline-form {
-        flex: 1 1 100%;
-    }
-
-    .actions-cell .button {
-        justify-content: center;
-        width: 100%;
-    }
-
-    .inline-form {
-        display: block;
-    }
 }
+
+
 
 @media (max-width: 420px) {
     .language-button {
