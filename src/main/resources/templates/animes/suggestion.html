@@ -9,17 +9,23 @@
 <body>
 <header class="page-header">
     <div class="container header-layout">
-        <div class="header-primary">
+        <div class="header-brand">
             <div class="header-text">
                 <h1 data-i18n="suggestion.header.title">Sugestão personalizada</h1>
                 <p data-i18n="suggestion.header.description">Baseado na sua lista atual, aqui estão algumas recomendações.</p>
             </div>
-            <nav class="header-nav" aria-label="Navegação principal" data-i18n-aria-label="layout.nav.ariaLabel">
-                <a class="nav-link" th:href="@{/animes}" data-i18n="layout.nav.catalog">Catálogo</a>
-                <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new">Cadastrar</a>
-                <a class="nav-link is-active" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion" aria-current="page">Sugestões</a>
-            </nav>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
+                    title="Abrir menu">
+                <span class="sr-only">Alternar navegação</span>
+                <span class="menu-toggle-bar" aria-hidden="true"></span>
+            </button>
         </div>
+        <nav id="primary-navigation" class="header-nav" aria-label="Navegação principal"
+             data-i18n-aria-label="layout.nav.ariaLabel">
+            <a class="nav-link" th:href="@{/animes}" data-i18n="layout.nav.catalog">Catálogo</a>
+            <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new">Cadastrar</a>
+            <a class="nav-link is-active" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion" aria-current="page">Sugestões</a>
+        </nav>
         <div class="header-controls">
             <div class="language-switcher" role="group" data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
                 <button type="button" class="language-button" data-language="pt" aria-pressed="true">
@@ -79,5 +85,6 @@
 </footer>
 <script th:src="@{/js/i18n.js}"></script>
 <script th:src="@{/js/theme.js}"></script>
+<script th:src="@{/js/layout.js}"></script>
 </body>
 </html>

@@ -9,17 +9,23 @@
 <body>
 <header class="page-header">
     <div class="container header-layout">
-        <div class="header-primary">
+        <div class="header-brand">
             <div class="header-text">
                 <h1>AnimeAI</h1>
                 <p data-i18n="list.header.description">Gerencie sua coleção de animes e peça sugestões personalizadas.</p>
             </div>
-            <nav class="header-nav" aria-label="Navegação principal" data-i18n-aria-label="layout.nav.ariaLabel">
-                <a class="nav-link is-active" th:href="@{/animes}" data-i18n="layout.nav.catalog" aria-current="page">Catálogo</a>
-                <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new">Cadastrar</a>
-                <a class="nav-link" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion">Sugestões</a>
-            </nav>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
+                    title="Abrir menu">
+                <span class="sr-only">Alternar navegação</span>
+                <span class="menu-toggle-bar" aria-hidden="true"></span>
+            </button>
         </div>
+        <nav id="primary-navigation" class="header-nav" aria-label="Navegação principal"
+             data-i18n-aria-label="layout.nav.ariaLabel">
+            <a class="nav-link is-active" th:href="@{/animes}" data-i18n="layout.nav.catalog" aria-current="page">Catálogo</a>
+            <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new">Cadastrar</a>
+            <a class="nav-link" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion">Sugestões</a>
+        </nav>
         <div class="header-controls">
             <div class="language-switcher" role="group" data-i18n-aria-label="language.switcher.label" aria-label="Seleção de idioma">
                 <button type="button" class="language-button" data-language="pt" aria-pressed="true">
@@ -88,10 +94,23 @@
                 </thead>
                 <tbody>
                 <tr th:each="anime : ${animes}">
-                    <td data-label="Título" data-i18n-label="list.table.title" th:text="${anime.titulo}"></td>
-                    <td data-label="Categoria" data-i18n-label="list.table.category" th:text="${anime.categoria != null ? anime.categoria : '—'}"></td>
-                    <td data-label="Ano de lançamento" data-i18n-label="list.table.releaseYear" th:text="${anime.anoLancamento != null ? #temporals.format(anime.anoLancamento, 'dd/MM/yyyy') : '—'}"></td>
-                    <td data-label="Episódios" data-i18n-label="list.table.episodes" th:text="${anime.numEpisodios != null ? anime.numEpisodios : '—'}"></td>
+                    <td data-label="Título" data-i18n-label="list.table.title">
+                        <span class="cell-title" th:text="${anime.titulo}"></span>
+                    </td>
+                    <td data-label="Categoria" data-i18n-label="list.table.category">
+                        <span th:if="${anime.categoria != null}" class="data-chip" th:text="${anime.categoria}"></span>
+                        <span th:unless="${anime.categoria != null}" class="cell-muted">—</span>
+                    </td>
+                    <td data-label="Ano de lançamento" data-i18n-label="list.table.releaseYear">
+                        <span th:if="${anime.anoLancamento != null}" class="cell-text"
+                              th:text="${#temporals.format(anime.anoLancamento, 'dd/MM/yyyy')}"></span>
+                        <span th:unless="${anime.anoLancamento != null}" class="cell-muted">—</span>
+                    </td>
+                    <td data-label="Episódios" data-i18n-label="list.table.episodes">
+                        <span th:if="${anime.numEpisodios != null}" class="cell-text"
+                              th:text="${anime.numEpisodios}"></span>
+                        <span th:unless="${anime.numEpisodios != null}" class="cell-muted">—</span>
+                    </td>
                     <td class="actions-cell" data-label="Ações" data-i18n-label="list.table.actions">
                         <a class="button small secondary" th:href="@{/animes/{id}/edit(id=${anime.id})}" data-i18n="list.table.edit">Editar</a>
                         <form th:action="@{/animes/{id}/delete(id=${anime.id})}" method="post" class="inline-form">
@@ -114,5 +133,6 @@
 </footer>
 <script th:src="@{/js/i18n.js}"></script>
 <script th:src="@{/js/theme.js}"></script>
+<script th:src="@{/js/layout.js}"></script>
 </body>
 </html>
