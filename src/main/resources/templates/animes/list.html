@@ -4,33 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title data-i18n-document-title="list.meta.title">AnimeAI - Catálogo de Animes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1'
+                    }
+                }
+            }
+        };
+    </script>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
+<body class="page-shell">
 <header class="page-header">
-    <div class="container header-layout">
-        <div class="header-brand">
-            <div class="header-text">
-                <h1>AnimeAI</h1>
-                <p data-i18n="list.header.description">Gerencie sua coleção de animes e peça sugestões personalizadas.</p>
-            </div>
+    <div class="container-safe header-layout">
+        <a th:href="@{/animes}" class="brand-mark">
+            <span class="brand-icon">AI</span>
+            <span>
+                <span class="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400" data-i18n="layout.brand.subtitle">Anime manager</span>
+                <p class="m-0 font-bold text-lg">AnimeAI</p>
+            </span>
+        </a>
+
+        <div class="nav-shell">
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
+                    title="Abrir menu" data-close-title="Fechar menu">
+                <span class="hamburger" aria-hidden="true"></span>
+                <span class="text-sm font-semibold" data-i18n="layout.nav.menu">Menu</span>
+            </button>
+            <nav id="primary-navigation" class="header-nav" aria-label="Navegação principal"
+                 data-i18n-aria-label="layout.nav.ariaLabel">
+                <a class="nav-link is-active" th:href="@{/animes}" data-i18n="layout.nav.catalog" aria-current="page">Catálogo</a>
+                <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new">Cadastrar</a>
+                <a class="nav-link" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion">Sugestões</a>
+            </nav>
         </div>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
-                title="Abrir menu">
-            <span class="sr-only">Alternar navegação</span>
-            <span class="menu-toggle-bar" aria-hidden="true"></span>
-        </button>
-        <nav id="primary-navigation" class="header-nav" aria-label="Navegação principal"
-             data-i18n-aria-label="layout.nav.ariaLabel">
-            <a class="nav-link is-active" th:href="@{/animes}" data-i18n="layout.nav.catalog" aria-current="page">Catálogo</a>
-            <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new">Cadastrar</a>
-            <a class="nav-link" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion">Sugestões</a>
-        </nav>
+
         <div class="header-controls">
             <div th:replace="fragments/language-switcher :: languageSwitcher"></div>
-            <button id="theme-toggle" class="theme-toggle control-button" type="button" aria-pressed="false" data-i18n-title="theme.toggle.title" title="Alternar tema">
+            <button id="theme-toggle" class="theme-toggle control-button" type="button" aria-pressed="false"
+                    data-i18n-title="theme.toggle.title" title="Alternar tema">
                 <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
-                <span class="theme-toggle-text sr-only"
+                <span class="theme-toggle-text text-sm font-semibold"
                       data-i18n="theme.toggle.dark"
                       data-label-dark="Modo escuro"
                       data-label-dark-key="theme.toggle.dark"
@@ -40,19 +59,34 @@
         </div>
     </div>
 </header>
-<main class="container">
+
+<main class="container-safe space-y-6 mt-6">
+    <section class="section-card flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="space-y-1">
+            <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400" data-i18n="list.header.kicker">Coleção organizada</p>
+            <h1 class="text-3xl font-bold" data-i18n="list.header.title">Catálogo de Animes</h1>
+            <p class="muted" data-i18n="list.header.description">Gerencie sua coleção de animes e peça sugestões personalizadas.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <a class="button" th:href="@{/animes/new}" data-i18n="list.actions.new">Cadastrar novo anime</a>
+            <a class="button secondary" th:href="@{/animes/suggestion}" data-i18n="list.actions.suggestion">Quero uma sugestão</a>
+        </div>
+    </section>
+
     <div th:if="${message}" class="alert success" th:text="${message}"></div>
     <div th:if="${errorMessage}" class="alert error" th:text="${errorMessage}"></div>
 
-    <div class="toolbar actions" role="region" data-i18n-aria-label="list.toolbar.label" aria-label="Ações rápidas">
-        <a class="button" th:href="@{/animes/new}" data-i18n="list.actions.new">Cadastrar novo anime</a>
-        <a class="button secondary" th:href="@{/animes/suggestion}" data-i18n="list.actions.suggestion">Quero uma sugestão</a>
-    </div>
+    <section class="section-card space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+                <p class="text-sm uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400" data-i18n="list.section.label">Visão geral</p>
+                <h2 class="text-2xl font-bold" data-i18n="list.section.title">Meus animes</h2>
+            </div>
+            <span class="badge" th:text="${#lists.size(animes)} + ' itens'"></span>
+        </div>
+        <p class="muted text-sm" data-i18n="list.table.scrollHint">Arraste horizontalmente para ver mais colunas</p>
 
-    <section class="card">
-        <h2 data-i18n="list.section.title">Meus animes</h2>
-        <div class="table-responsive">
-            <p class="table-scroll-hint" data-i18n="list.table.scrollHint">Arraste horizontalmente para ver mais colunas</p>
+        <div class="table-wrap">
             <table class="anime-table">
                 <thead>
                 <tr>
@@ -65,24 +99,24 @@
                 </thead>
                 <tbody>
                 <tr th:each="anime : ${animes}">
-                    <td data-label="Título" data-i18n-label="list.table.title">
-                        <span class="cell-title" th:text="${anime.titulo}"></span>
+                    <td>
+                        <div class="font-semibold" th:text="${anime.titulo}"></div>
                     </td>
-                    <td data-label="Categoria" data-i18n-label="list.table.category">
-                        <span th:if="${anime.categoria != null}" class="data-chip" th:text="${anime.categoria}"></span>
+                    <td>
+                        <span th:if="${anime.categoria != null}" class="badge" th:text="${anime.categoria}"></span>
                         <span th:unless="${anime.categoria != null}" class="cell-muted">—</span>
                     </td>
-                    <td data-label="Ano de lançamento" data-i18n-label="list.table.releaseYear">
+                    <td>
                         <span th:if="${anime.anoLancamento != null}" class="cell-text"
                               th:text="${#temporals.format(anime.anoLancamento, 'dd/MM/yyyy')}"></span>
                         <span th:unless="${anime.anoLancamento != null}" class="cell-muted">—</span>
                     </td>
-                    <td data-label="Episódios" data-i18n-label="list.table.episodes">
+                    <td>
                         <span th:if="${anime.numEpisodios != null}" class="cell-text"
                               th:text="${anime.numEpisodios}"></span>
                         <span th:unless="${anime.numEpisodios != null}" class="cell-muted">—</span>
                     </td>
-                    <td class="actions-cell" data-label="Ações" data-i18n-label="list.table.actions">
+                    <td class="actions-cell">
                         <a class="button small secondary" th:href="@{/animes/{id}/edit(id=${anime.id})}" data-i18n="list.table.edit">Editar</a>
                         <form th:action="@{/animes/{id}/delete(id=${anime.id})}" method="post" class="inline-form">
                             <button type="submit" class="button small danger js-delete-button" data-confirm-key="list.confirm.delete" data-i18n="list.table.delete">Excluir</button>
@@ -90,18 +124,18 @@
                     </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(animes)}">
-                    <td colspan="5" class="empty-state" data-i18n="list.empty">Nenhum anime cadastrado até o momento.</td>
+                    <td colspan="5" class="text-center py-6 cell-muted" data-i18n="list.empty">Nenhum anime cadastrado até o momento.</td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </section>
 </main>
-<footer class="page-footer">
-    <div class="container">
-        <p>AnimeAI</p>
-    </div>
+
+<footer class="mt-10 border-t border-slate-200/60 dark:border-slate-700/50">
+    <div class="container-safe py-6 text-sm text-slate-500 dark:text-slate-400" data-i18n="layout.footer">AnimeAI — Powered by Spring Boot e Thymeleaf.</div>
 </footer>
+
 <script th:src="@{/js/i18n.js}"></script>
 <script th:src="@{/js/theme.js}"></script>
 <script th:src="@{/js/layout.js}"></script>

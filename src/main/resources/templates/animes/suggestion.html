@@ -4,33 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title data-i18n-document-title="suggestion.meta.title">Sugestões de animes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1'
+                    }
+                }
+            }
+        };
+    </script>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
+<body class="page-shell">
 <header class="page-header">
-    <div class="container header-layout">
-        <div class="header-brand">
-            <div class="header-text">
-                <h1 data-i18n="suggestion.header.title">Sugestão personalizada</h1>
-                <p data-i18n="suggestion.header.description">Baseado na sua lista atual, aqui estão algumas recomendações.</p>
-            </div>
+    <div class="container-safe header-layout">
+        <a th:href="@{/animes}" class="brand-mark">
+            <span class="brand-icon">AI</span>
+            <span>
+                <span class="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400" data-i18n="layout.brand.subtitle">Anime manager</span>
+                <p class="m-0 font-bold text-lg">AnimeAI</p>
+            </span>
+        </a>
+
+        <div class="nav-shell">
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
+                    title="Abrir menu" data-close-title="Fechar menu">
+                <span class="hamburger" aria-hidden="true"></span>
+                <span class="text-sm font-semibold" data-i18n="layout.nav.menu">Menu</span>
+            </button>
+            <nav id="primary-navigation" class="header-nav" aria-label="Navegação principal"
+                 data-i18n-aria-label="layout.nav.ariaLabel">
+                <a class="nav-link" th:href="@{/animes}" data-i18n="layout.nav.catalog">Catálogo</a>
+                <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new">Cadastrar</a>
+                <a class="nav-link is-active" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion" aria-current="page">Sugestões</a>
+            </nav>
         </div>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
-                title="Abrir menu">
-            <span class="sr-only">Alternar navegação</span>
-            <span class="menu-toggle-bar" aria-hidden="true"></span>
-        </button>
-        <nav id="primary-navigation" class="header-nav" aria-label="Navegação principal"
-             data-i18n-aria-label="layout.nav.ariaLabel">
-            <a class="nav-link" th:href="@{/animes}" data-i18n="layout.nav.catalog">Catálogo</a>
-            <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new">Cadastrar</a>
-            <a class="nav-link is-active" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion" aria-current="page">Sugestões</a>
-        </nav>
+
         <div class="header-controls">
             <div th:replace="fragments/language-switcher :: languageSwitcher"></div>
-            <button id="theme-toggle" class="theme-toggle control-button" type="button" aria-pressed="false" data-i18n-title="theme.toggle.title" title="Alternar tema">
+            <button id="theme-toggle" class="theme-toggle control-button" type="button" aria-pressed="false"
+                    data-i18n-title="theme.toggle.title" title="Alternar tema">
                 <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
-                <span class="theme-toggle-text sr-only"
+                <span class="theme-toggle-text text-sm font-semibold"
                       data-i18n="theme.toggle.dark"
                       data-label-dark="Modo escuro"
                       data-label-dark-key="theme.toggle.dark"
@@ -40,20 +59,33 @@
         </div>
     </div>
 </header>
-<main class="container">
-    <section class="card">
-        <h2 data-i18n="suggestion.section.title">Resultado</h2>
+
+<main class="container-safe space-y-6 mt-6">
+    <section class="section-card space-y-2">
+        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400" data-i18n="suggestion.header.kicker">Resultado inteligente</p>
+        <h1 class="text-3xl font-bold" data-i18n="suggestion.header.title">Sugestão personalizada</h1>
+        <p class="muted" data-i18n="suggestion.header.description">Baseado na sua lista atual, aqui estão algumas recomendações.</p>
+    </section>
+
+    <section class="section-card space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+                <p class="text-sm uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400" data-i18n="suggestion.section.label">Inspiração</p>
+                <h2 class="text-2xl font-bold" data-i18n="suggestion.section.title">Resultado</h2>
+            </div>
+            <span class="badge" data-i18n="suggestion.badge">Atualizado agora</span>
+        </div>
         <pre class="suggestion" th:text="${suggestion}"></pre>
         <div class="form-actions">
             <a class="button" th:href="@{/animes}" data-i18n="suggestion.actions.back">Voltar para a lista</a>
         </div>
     </section>
 </main>
-<footer class="page-footer">
-    <div class="container">
-        <p data-i18n="layout.footer">AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
-    </div>
+
+<footer class="mt-10 border-t border-slate-200/60 dark:border-slate-700/50">
+    <div class="container-safe py-6 text-sm text-slate-500 dark:text-slate-400" data-i18n="layout.footer">AnimeAI — Powered by Spring Boot e Thymeleaf.</div>
 </footer>
+
 <script th:src="@{/js/i18n.js}"></script>
 <script th:src="@{/js/theme.js}"></script>
 <script th:src="@{/js/layout.js}"></script>

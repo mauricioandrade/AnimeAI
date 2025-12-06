@@ -5,38 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${anime.id == null} ? 'Cadastrar anime' : 'Editar anime'"
            th:attr="data-i18n-document-title=${anime.id == null} ? 'form.meta.title.new' : 'form.meta.title.edit'"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1'
+                    }
+                }
+            }
+        };
+    </script>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
+<body class="page-shell">
 <header class="page-header">
-    <div class="container header-layout">
-        <div class="header-brand">
-            <div class="header-text">
-                <h1 th:text="${anime.id == null} ? 'Cadastrar anime' : 'Editar anime'"
-                    th:attr="data-i18n=${anime.id == null} ? 'form.header.title.new' : 'form.header.title.edit'"></h1>
-                <p data-i18n="form.header.description">Preencha os dados abaixo e mantenha sua lista sempre atualizada.</p>
-            </div>
+    <div class="container-safe header-layout">
+        <a th:href="@{/animes}" class="brand-mark">
+            <span class="brand-icon">AI</span>
+            <span>
+                <span class="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400" data-i18n="layout.brand.subtitle">Anime manager</span>
+                <p class="m-0 font-bold text-lg">AnimeAI</p>
+            </span>
+        </a>
+
+        <div class="nav-shell">
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
+                    title="Abrir menu" data-close-title="Fechar menu">
+                <span class="hamburger" aria-hidden="true"></span>
+                <span class="text-sm font-semibold" data-i18n="layout.nav.menu">Menu</span>
+            </button>
+            <nav id="primary-navigation" class="header-nav" aria-label="Navegação principal"
+                 data-i18n-aria-label="layout.nav.ariaLabel">
+                <a class="nav-link" th:href="@{/animes}" data-i18n="layout.nav.catalog"
+                   th:classappend="${anime.id != null} ? ' is-active' : ''"
+                   th:attr="aria-current=${anime.id != null} ? 'page' : null">Catálogo</a>
+                <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new"
+                   th:classappend="${anime.id == null} ? ' is-active' : ''"
+                   th:attr="aria-current=${anime.id == null} ? 'page' : null">Cadastrar</a>
+                <a class="nav-link" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion">Sugestões</a>
+            </nav>
         </div>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
-                title="Abrir menu">
-            <span class="sr-only">Alternar navegação</span>
-            <span class="menu-toggle-bar" aria-hidden="true"></span>
-        </button>
-        <nav id="primary-navigation" class="header-nav" aria-label="Navegação principal"
-             data-i18n-aria-label="layout.nav.ariaLabel">
-            <a class="nav-link" th:href="@{/animes}" data-i18n="layout.nav.catalog"
-               th:classappend="${anime.id != null} ? ' is-active' : ''"
-               th:attr="aria-current=${anime.id != null} ? 'page' : null">Catálogo</a>
-            <a class="nav-link" th:href="@{/animes/new}" data-i18n="layout.nav.new"
-               th:classappend="${anime.id == null} ? ' is-active' : ''"
-               th:attr="aria-current=${anime.id == null} ? 'page' : null">Cadastrar</a>
-            <a class="nav-link" th:href="@{/animes/suggestion}" data-i18n="layout.nav.suggestion">Sugestões</a>
-        </nav>
+
         <div class="header-controls">
             <div th:replace="fragments/language-switcher :: languageSwitcher"></div>
-            <button id="theme-toggle" class="theme-toggle control-button" type="button" aria-pressed="false" data-i18n-title="theme.toggle.title" title="Alternar tema">
+            <button id="theme-toggle" class="theme-toggle control-button" type="button" aria-pressed="false"
+                    data-i18n-title="theme.toggle.title" title="Alternar tema">
                 <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
-                <span class="theme-toggle-text sr-only"
+                <span class="theme-toggle-text text-sm font-semibold"
                       data-i18n="theme.toggle.dark"
                       data-label-dark="Modo escuro"
                       data-label-dark-key="theme.toggle.dark"
@@ -46,35 +64,45 @@
         </div>
     </div>
 </header>
-<main class="container">
-    <section class="card">
-        <form class="anime-form" th:action="${anime.id} != null ? @{/animes/{id}/update(id=${anime.id})} : @{/animes}" th:object="${anime}" method="post">
+
+<main class="container-safe space-y-6 mt-6">
+    <section class="section-card space-y-2">
+        <p class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400" data-i18n="form.header.kicker">Cadastro rápido</p>
+        <h1 class="text-3xl font-bold" th:text="${anime.id == null} ? 'Cadastrar anime' : 'Editar anime'"
+            th:attr="data-i18n=${anime.id == null} ? 'form.header.title.new' : 'form.header.title.edit'"></h1>
+        <p class="muted" data-i18n="form.header.description">Preencha os dados abaixo e mantenha sua lista sempre atualizada.</p>
+    </section>
+
+    <section class="section-card">
+        <form class="anime-form space-y-6" th:action="${anime.id} != null ? @{/animes/{id}/update(id=${anime.id})} : @{/animes}" th:object="${anime}" method="post">
             <input type="hidden" th:field="*{id}">
-            <div class="form-group" th:classappend="${#fields.hasErrors('titulo')} ? ' has-error' : ''">
-                <label for="titulo" data-i18n="form.field.title">Título</label>
-                <input id="titulo" type="text" th:field="*{titulo}" placeholder="Ex: Fullmetal Alchemist" data-i18n-placeholder="form.placeholder.title" required th:classappend="${#fields.hasErrors('titulo')} ? ' is-invalid' : ''">
-                <p class="form-error" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></p>
-            </div>
-            <div class="form-group" th:classappend="${#fields.hasErrors('categoria')} ? ' has-error' : ''">
-                <label for="categoria" data-i18n="form.field.category">Categoria</label>
-                <select id="categoria" th:field="*{categoria}" th:classappend="${#fields.hasErrors('categoria')} ? ' is-invalid' : ''">
-                    <option value="" th:if="${anime.categoria == null}" disabled selected data-i18n="form.select.placeholder">Selecione</option>
-                    <option th:each="categoria : ${categorias}" th:value="${categoria}" th:text="${categoria}"></option>
-                </select>
-                <p class="form-error" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></p>
-            </div>
-            <div class="form-group" th:classappend="${#fields.hasErrors('anoLancamento')} ? ' has-error' : ''">
-                <label for="anoLancamento">
-                    <span data-i18n="form.field.releaseYear">Ano de lançamento</span>
-                    <span id="releaseYearHint" class="optional-hint" data-i18n="form.field.optional">(Opcional)</span>
-                </label>
-                <input id="anoLancamento" type="date" th:field="*{anoLancamento}" aria-describedby="releaseYearHint" th:classappend="${#fields.hasErrors('anoLancamento')} ? ' is-invalid' : ''">
-                <p class="form-error" th:if="${#fields.hasErrors('anoLancamento')}" th:errors="*{anoLancamento}"></p>
-            </div>
-            <div class="form-group" th:classappend="${#fields.hasErrors('numEpisodios')} ? ' has-error' : ''">
-                <label for="numEpisodios" data-i18n="form.field.episodes">Número de episódios</label>
-                <input id="numEpisodios" type="number" min="1" th:field="*{numEpisodios}" placeholder="Ex: 24" data-i18n-placeholder="form.placeholder.episodes" th:classappend="${#fields.hasErrors('numEpisodios')} ? ' is-invalid' : ''">
-                <p class="form-error" th:if="${#fields.hasErrors('numEpisodios')}" th:errors="*{numEpisodios}"></p>
+            <div class="form-grid two-col">
+                <div class="form-group" th:classappend="${#fields.hasErrors('titulo')} ? ' has-error' : ''">
+                    <label for="titulo" data-i18n="form.field.title">Título</label>
+                    <input id="titulo" type="text" th:field="*{titulo}" placeholder="Ex: Fullmetal Alchemist" data-i18n-placeholder="form.placeholder.title" required th:classappend="${#fields.hasErrors('titulo')} ? ' is-invalid' : ''">
+                    <p class="form-error" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></p>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('categoria')} ? ' has-error' : ''">
+                    <label for="categoria" data-i18n="form.field.category">Categoria</label>
+                    <select id="categoria" th:field="*{categoria}" th:classappend="${#fields.hasErrors('categoria')} ? ' is-invalid' : ''">
+                        <option value="" th:if="${anime.categoria == null}" disabled selected data-i18n="form.select.placeholder">Selecione</option>
+                        <option th:each="categoria : ${categorias}" th:value="${categoria}" th:text="${categoria}"></option>
+                    </select>
+                    <p class="form-error" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></p>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('anoLancamento')} ? ' has-error' : ''">
+                    <label for="anoLancamento">
+                        <span data-i18n="form.field.releaseYear">Ano de lançamento</span>
+                        <span id="releaseYearHint" class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-200" data-i18n="form.field.optional">(Opcional)</span>
+                    </label>
+                    <input id="anoLancamento" type="date" th:field="*{anoLancamento}" aria-describedby="releaseYearHint" th:classappend="${#fields.hasErrors('anoLancamento')} ? ' is-invalid' : ''">
+                    <p class="form-error" th:if="${#fields.hasErrors('anoLancamento')}" th:errors="*{anoLancamento}"></p>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('numEpisodios')} ? ' has-error' : ''">
+                    <label for="numEpisodios" data-i18n="form.field.episodes">Número de episódios</label>
+                    <input id="numEpisodios" type="number" min="1" th:field="*{numEpisodios}" placeholder="Ex: 24" data-i18n-placeholder="form.placeholder.episodes" th:classappend="${#fields.hasErrors('numEpisodios')} ? ' is-invalid' : ''">
+                    <p class="form-error" th:if="${#fields.hasErrors('numEpisodios')}" th:errors="*{numEpisodios}"></p>
+                </div>
             </div>
             <div class="form-actions">
                 <button type="submit" class="button" data-i18n="form.actions.save">Salvar</button>
@@ -83,11 +111,11 @@
         </form>
     </section>
 </main>
-<footer class="page-footer">
-    <div class="container">
-        <p data-i18n="layout.footer">AnimeAI &mdash; Powered by Spring Boot e Thymeleaf.</p>
-    </div>
+
+<footer class="mt-10 border-t border-slate-200/60 dark:border-slate-700/50">
+    <div class="container-safe py-6 text-sm text-slate-500 dark:text-slate-400" data-i18n="layout.footer">AnimeAI — Powered by Spring Boot e Thymeleaf.</div>
 </footer>
+
 <script th:src="@{/js/i18n.js}"></script>
 <script th:src="@{/js/theme.js}"></script>
 <script th:src="@{/js/layout.js}"></script>
