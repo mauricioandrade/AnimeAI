@@ -1,5 +1,6 @@
 (function () {
     const storageKey = 'animeai-theme';
+    const root = document.documentElement;
     const body = document.body;
     const toggle = document.getElementById('theme-toggle');
 
@@ -21,6 +22,7 @@
 
     const applyTheme = (theme) => {
         const isDark = theme === 'dark';
+        root.classList.toggle('dark', isDark);
         body.classList.toggle('dark-mode', isDark);
         toggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
 
@@ -61,7 +63,7 @@
     applyTheme(getPreferredTheme());
 
     toggle.addEventListener('click', () => {
-        const isDark = body.classList.contains('dark-mode');
+        const isDark = root.classList.contains('dark');
         const newTheme = isDark ? 'light' : 'dark';
         applyTheme(newTheme);
         setStoredTheme(newTheme);
